@@ -3,7 +3,7 @@
   "solution": {
     "name": "random-quotes-solution",
     "id": "276f9ef7-e529-4441-9281-ea08b5aad2d8",
-    "version": "0.0.2.0",
+    "version": "0.0.3.0",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,

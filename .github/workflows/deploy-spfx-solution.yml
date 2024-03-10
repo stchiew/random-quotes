@@ -1,0 +1,44 @@
+name: Deploy Solution random-quotes
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - ".github/workflows/**.yml"
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.0.0
+      - name: Use Node.js 16.15.1
+        uses: actions/setup-node@v3.8.1
+        with:
+          node-version: 16.15.1
+      - name: Run npm ci
+        run: npm ci
+
+        # gulp bundle and package solution
+      - name: Bundle & Package
+        run: |
+          gulp bundle --ship
+          gulp package-solution --ship
+
+      - name: CLI for Microsoft 365 Login
+        uses: pnp/action-cli-login@v2.2.4
+        with:
+          # Base64-encoded string with certificate private key
+          CERTIFICATE_ENCODED: ${{ secrets.CERTIFICATE_ENCODED }}
+          # Password for the certificate
+          CERTIFICATE_PASSWORD: ${{ secrets.CERTIFICATE_PASSWORD }}
+          APP_ID: ${{ secrets.APP_ID }}
+          TENANT: ${{ secrets.TENANT_ID }}
+
+      - name: CLI for Microsoft 365 Deploy App
+        uses: pnp/action-cli-deploy@v4.0.0
+        with:
+          APP_FILE_PATH: sharepoint/solution/random-quotes.sppkg
+          SKIP_FEATURE_DEPLOYMENT: false
+          OVERWRITE: true
+          SCOPE: sitecollection
+          SITE_COLLECTION_URL: https://pandacolors.sharepoint.com/sites/Production/AppCatalog
