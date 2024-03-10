@@ -5,8 +5,8 @@ import { escape } from "@microsoft/sp-lodash-subset";
 
 const Quotes: React.FC<IQuotesProps> = (props) => {
   const {
-    description,
-    isDarkTheme,
+    //description,
+    //isDarkTheme,
     environmentMessage,
     hasTeamsContext,
     userDisplayName,
@@ -19,11 +19,9 @@ const Quotes: React.FC<IQuotesProps> = (props) => {
       <div className={styles.welcome}>
         <h2>Hello, {escape(userDisplayName)}!</h2>
         <div>{environmentMessage}</div>
+        <div>A house divided against itself cannot stand.</div>
         <div>
-          Web part property value: <strong>{escape(description)}</strong>
-        </div>
-        <div>
-          <strong>This is now a functional component {isDarkTheme}</strong>
+          <strong>Abraham Lincoln</strong>
         </div>
       </div>
     </section>
